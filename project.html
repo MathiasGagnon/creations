@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Project</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="themes/base.css" />
+  <link rel="stylesheet" id="theme-css" />
+</head>
+<body>
+  <div class="page">
+    <nav class="top">
+      <a href="index.html" class="back">← All creations</a>
+      <span class="top-code" id="top-code"></span>
+    </nav>
+    <header class="hero" id="hero"></header>
+    <main class="gallery" id="gallery"></main>
+    <footer class="foot" id="foot"></footer>
+  </div>
+
+  <dialog class="lightbox" id="lightbox">
+    <button class="lb-close" aria-label="Close">×</button>
+    <button class="lb-nav lb-prev" aria-label="Previous">‹</button>
+    <figure><img alt="" /><figcaption></figcaption></figure>
+    <button class="lb-nav lb-next" aria-label="Next">›</button>
+  </dialog>
+
+  <script src="projects.js"></script>
+  <script src="common.js"></script>
+  <script>
+    const slug = new URLSearchParams(location.search).get("p");
+    const P = PROJECTS.find((p) => p.slug === slug) || PROJECTS[0];
+    const theme = P.theme || "plain";
+
+    document.title = P.title;
+    document.documentElement.dataset.look = theme;
+    document.getElementById("theme-css").href = `themes/${theme}.css`;
+    document.getElementById("top-code").textContent = P.code || "";
+
+    const specs = (P.specs || []).map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join("");
+    document.getElementById("hero").innerHTML = `
+      <div class="hero-tag">${esc(P.code || "")}<span>${esc(P.year || "")}</span>${P.status ? `<span class="status">${P.status === "wip" ? "In progress" : esc(P.status)}</span>` : ""}</div>
+      <h1>${esc(P.title)}</h1>
+      <p class="sub">${esc(P.subtitle || "")}</p>
+      ${specs ? `<dl class="specs">${specs}</dl>` : ""}
+      <div class="links">${linkChips(P.links)}</div>
+      <div class="hero-bar" aria-hidden="true"></div>`;
+
+    const items = P.gallery || [];
+    const gal = document.getElementById("gallery");
+    gal.innerHTML = items.map((g, i) => `
+      <figure class="shot" data-i="${i}">
+        <button class="shot-open" aria-label="Open ${esc(g.caption || "image " + (i + 1))}">
+          <img src="${esc(g.src)}" alt="${esc(g.caption || "")}" loading="lazy" data-fallback="IMG_${pad(i + 1)} · pending">
+        </button>
+        <figcaption>
+          <span class="idx">${pad(i + 1)}</span>
+          <span class="cap">${esc(g.caption || "")}</span>
+          ${g.links?.length ? `<span class="shot-links">${linkChips(g.links)}</span>` : ""}
+        </figcaption>
+      </figure>`).join("");
+    if (!items.length) {
+      gal.classList.add("is-empty");
+      gal.innerHTML = `<div class="empty"><span class="empty-code">${esc(P.code || "")}</span><p>Planned. Nothing to show yet.</p><p class="empty-sub">Renders, photos and files will land here.</p></div>`;
+    }
+    wireFallbacks(gal);
+
+    document.getElementById("foot").innerHTML = `<span>${esc(P.title)} · ${pad(items.length)} images</span><a href="index.html">Back to all creations</a>`;
+
+    // Lightbox
+    const lb = document.getElementById("lightbox");
+    const lbImg = lb.querySelector("img"), lbCap = lb.querySelector("figcaption");
+    let cur = 0;
+    const show = (i) => {
+      cur = (i + items.length) % items.length;
+      const g = items[cur];
+      lbImg.src = g.src; lbImg.alt = g.caption || "";
+      lbCap.innerHTML = `<span class="idx">${pad(cur + 1)} / ${pad(items.length)}</span> ${esc(g.caption || "")} ${linkChips(g.links)}`;
+    };
+    gal.addEventListener("click", (e) => {
+      const b = e.target.closest(".shot-open");
+      if (!b || !b.querySelector("img")) return; // placeholder: nothing to enlarge
+      show(+b.closest(".shot").dataset.i); lb.showModal();
+    });
+    lb.querySelector(".lb-close").onclick = () => lb.close();
+    lb.querySelector(".lb-prev").onclick = () => show(cur - 1);
+    lb.querySelector(".lb-next").onclick = () => show(cur + 1);
+    lb.addEventListener("click", (e) => { if (e.target === lb) lb.close(); });
+    document.addEventListener("keydown", (e) => {
+      if (!lb.open) return;
+      if (e.key === "ArrowLeft") show(cur - 1);
+      if (e.key === "ArrowRight") show(cur + 1);
+    });
+  </script>
+</body>
+</html>

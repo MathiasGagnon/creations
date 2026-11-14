@@ -1,0 +1,107 @@
+/* EXPANSE — hard sci-fi ship HUD: void navy, starfield, amber readouts, wide-tracked caps,
+   thin rules with tick marks, corner brackets. Always dark. */
+@import url("https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@200;300;600&family=IBM+Plex+Mono:wght@400;500&display=swap");
+
+:root {
+  --bg: #05070d;
+  --panel: #0b1120;
+  --ink: #d6dbe4;
+  --dim: #5f6b80;
+  --line: #1a2335;
+  --amber: #ff8a2a;
+  --ice: #7cc6e8;
+  --head: "Saira Condensed", "Arial Narrow", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--ink);
+  font: 400 13px/1.55 var(--mono);
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, #fff8 50%, transparent 51%),
+    radial-gradient(1px 1px at 68% 9%, #fff6 50%, transparent 51%),
+    radial-gradient(1px 1px at 33% 72%, #fff5 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 84% 46%, #fff9 50%, transparent 51%),
+    radial-gradient(1px 1px at 52% 38%, #fff4 50%, transparent 51%),
+    radial-gradient(1px 1px at 91% 83%, #fff5 50%, transparent 51%),
+    radial-gradient(1px 1px at 6% 58%, #fff6 50%, transparent 51%),
+    radial-gradient(ellipse 80% 50% at 80% -10%, #12203a 0%, transparent 70%);
+  background-size: 420px 420px, 420px 420px, 420px 420px, 420px 420px, 420px 420px, 420px 420px, 420px 420px, 100% 100%;
+  background-attachment: fixed;
+}
+::selection { background: var(--amber); color: #000; }
+
+.top { border-bottom: 1px solid var(--line); font-size: 11px; letter-spacing: .2em; text-transform: uppercase; }
+.back { color: var(--dim); }
+.back:hover { color: var(--amber); }
+.top-code { color: var(--amber); border: 1px solid var(--amber); padding: 2px 8px; }
+
+.hero-tag { font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: var(--ice); }
+.hero-tag span { margin-left: 16px; color: var(--dim); }
+.hero-tag .status { color: var(--amber); }
+.hero-tag .status::before { content: "● "; }
+
+.hero h1 {
+  font-family: var(--head); font-weight: 200;
+  font-size: clamp(48px, 11vw, 168px); line-height: .95;
+  letter-spacing: .12em; text-transform: uppercase;
+  margin-top: 18px;
+}
+.sub { margin-top: 18px; max-width: 52ch; color: var(--dim); letter-spacing: .04em; }
+
+.specs dt { font-size: 10px; letter-spacing: .24em; text-transform: uppercase; color: var(--dim); }
+.specs dd { color: var(--amber); font-size: 15px; }
+
+.chip {
+  font: 500 11px var(--mono); letter-spacing: .2em; text-transform: uppercase;
+  padding: 9px 16px; color: var(--amber); border: 1px solid var(--amber);
+  transition: background .15s, color .15s;
+}
+.chip--video { color: var(--ice); border-color: var(--ice); }
+.chip:hover { background: var(--amber); color: #000; }
+
+/* rule with tick marks */
+.hero-bar {
+  margin-top: clamp(32px, 5vw, 56px); height: 12px;
+  border-bottom: 1px solid var(--dim);
+  background: repeating-linear-gradient(90deg, var(--dim) 0 1px, transparent 1px 24px) bottom / 100% 6px no-repeat,
+              linear-gradient(var(--amber), var(--amber)) left bottom / 64px 3px no-repeat;
+}
+
+.gallery { padding-top: 12px; }
+.shot-open { background: var(--panel); }
+.shot-open img { transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+.shot-open:hover img { transform: scale(1.025); }
+.shot-open::before, .shot-open::after {
+  content: ""; position: absolute; inset: 8px; pointer-events: none; z-index: 1;
+  border: 1px solid var(--amber); opacity: 0; transition: opacity .2s, inset .2s;
+  clip-path: polygon(0 0, 18px 0, 18px 1px, 1px 1px, 1px 18px, 0 18px, 0 0,
+                     100% 0, 100% 18px, calc(100% - 1px) 18px, calc(100% - 1px) 1px, calc(100% - 18px) 1px, calc(100% - 18px) 0,
+                     100% 100%, calc(100% - 18px) 100%, calc(100% - 18px) calc(100% - 1px), calc(100% - 1px) calc(100% - 1px), calc(100% - 1px) calc(100% - 18px), 100% calc(100% - 18px),
+                     0 100%, 0 calc(100% - 18px), 1px calc(100% - 18px), 1px calc(100% - 1px), 18px calc(100% - 1px), 18px 100%);
+}
+.shot-open::after { display: none; }
+.shot-open:hover::before { opacity: 1; inset: 12px; }
+.shot figcaption { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
+.idx { color: var(--amber); }
+.shot .cap { color: var(--dim); }
+
+.ph { background: var(--panel); color: var(--dim); font-size: 10px; letter-spacing: .24em; text-transform: uppercase; }
+
+.empty { border: 1px solid var(--line); background: radial-gradient(circle at 50% 50%, #0f1a2e 0%, transparent 60%); }
+.empty-code { font: 200 clamp(48px, 10vw, 112px)/1 var(--head); letter-spacing: .2em; color: var(--line); -webkit-text-stroke: 1px var(--dim); }
+.empty p { letter-spacing: .2em; text-transform: uppercase; font-size: 12px; }
+.empty-sub { color: var(--dim); }
+
+.foot { border-top: 1px solid var(--line); color: var(--dim); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; }
+.foot a:hover { color: var(--amber); }
+
+.lightbox { background: rgba(3,5,10,.97); color: var(--ink); }
+.lightbox::backdrop { background: transparent; }
+.lightbox figcaption { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--dim); }
+.lb-close, .lb-nav { color: var(--dim); }
+.lb-close:hover, .lb-nav:hover { color: var(--amber); }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }

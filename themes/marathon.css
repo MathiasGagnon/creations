@@ -1,0 +1,167 @@
+/* MARATHON — graphic-realism sci-fi: black/bone, acid lime, teal, condensed caps,
+   mono micro-labels, crop marks, barcodes. Always dark by design. */
+@import url("https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=JetBrains+Mono:wght@400;500;700&display=swap");
+
+/* Marathon's actual typefaces (per gamefontlibrary.com) — all commercial:
+     Shapiro          ogjtype.com                       → headlines
+     Fraktion Mono    pangrampangram.com                → body + labels
+     KH Interference  khtype.com                        → codes / tags
+     IvyPresto Disp.  fonts.adobe.com (needs a web kit) → not used yet
+   Drop licensed .woff2 files into assets/fonts/ with the names below, or install them
+   on your machine (local() picks those up, but only for you). If missing, the free
+   Archivo / JetBrains Mono fallbacks are used, so nothing breaks. */
+@font-face { font-family: "MX Head"; font-weight: 100 900; font-display: swap;
+  src: local("Shapiro"), url("../assets/fonts/shapiro.woff2") format("woff2"); }
+@font-face { font-family: "MX Mono"; font-weight: 400; font-display: swap;
+  src: local("Fraktion Mono"), local("FraktionMono-Regular"), url("../assets/fonts/fraktion-mono.woff2") format("woff2"); }
+@font-face { font-family: "MX Mono"; font-weight: 700; font-display: swap;
+  src: local("Fraktion Mono Bold"), local("FraktionMono-Bold"), url("../assets/fonts/fraktion-mono-bold.woff2") format("woff2"); }
+@font-face { font-family: "MX Code"; font-display: swap;
+  src: local("KH Interference"), url("../assets/fonts/kh-interference.woff2") format("woff2"); }
+
+:root {
+  --bg: #0a0b0a;
+  --panel: #121413;
+  --bone: #e8e6dc;
+  --dim: #6f726c;
+  --line: #262a27;
+  --acid: #c6ff1a;
+  --teal: #19b3a6;
+  --hot: #ff3b6b;
+  --mono: "MX Mono", "JetBrains Mono", ui-monospace, monospace;
+  --code: "MX Code", "MX Mono", "JetBrains Mono", monospace;
+  --cond: "MX Head", "Archivo", "Arial Narrow", sans-serif;
+  color-scheme: dark;
+}
+
+body {
+  background: var(--bg);
+  color: var(--bone);
+  font: 400 13px/1.5 var(--mono);
+  /* faint technical grid */
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 80px 80px;
+  background-position: -1px -1px;
+  background-attachment: fixed;
+}
+::selection { background: var(--acid); color: #000; }
+
+/* ── top bar ─────────────────────────────── */
+.top { border-bottom: 1px solid var(--line); text-transform: uppercase; letter-spacing: .14em; font-size: 11px; }
+.back { color: var(--dim); transition: color .15s; }
+.back:hover { color: var(--acid); }
+.top-code { background: var(--acid); color: #000; padding: 3px 8px; font-weight: 700; font-family: var(--code); }
+
+/* ── hero ────────────────────────────────── */
+.hero { position: relative; }
+.hero-tag {
+  display: inline-flex; gap: 14px; align-items: center;
+  font: 400 11px var(--code); letter-spacing: .2em; text-transform: uppercase; color: var(--acid);
+}
+.hero-tag::before { content: ""; width: 10px; height: 10px; background: var(--acid); }
+.hero-tag span { color: var(--dim); }
+.hero-tag span::before { content: "// "; }
+
+.hero h1 {
+  font-family: var(--cond);
+  font-variation-settings: "wdth" 62;
+  font-weight: 900;
+  font-size: clamp(56px, 17vw, 280px);
+  line-height: .78;
+  letter-spacing: -.01em;
+  text-transform: uppercase;
+  margin: 18px 0 0 -0.04em;
+}
+.sub {
+  margin-top: 22px; max-width: 46ch;
+  color: var(--dim); text-transform: uppercase; letter-spacing: .08em; font-size: 12px;
+  border-left: 3px solid var(--teal); padding-left: 12px;
+}
+
+.specs { gap: 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); max-width: 720px; }
+.specs > div { flex: 1 1 140px; padding: 10px 14px 10px 0; }
+.specs > div + div { border-left: 1px solid var(--line); padding-left: 14px; }
+.specs dt { font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--dim); }
+.specs dd { font-size: 15px; font-weight: 500; color: var(--bone); margin-top: 2px; }
+
+/* link chips */
+.chip {
+  font: 700 11px var(--mono); letter-spacing: .14em; text-transform: uppercase;
+  padding: 9px 14px; background: var(--bone); color: #000;
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+  transition: background .15s, transform .15s;
+}
+.chip--video { background: var(--teal); }
+.chip--model { background: var(--acid); }
+.chip:hover { background: var(--hot); color: #000; transform: translateY(-2px); }
+
+/* barcode + hazard strip under the hero */
+.hero-bar {
+  margin-top: clamp(32px, 5vw, 56px); height: 18px;
+  background:
+    repeating-linear-gradient(90deg, var(--bone) 0 2px, transparent 2px 5px, var(--bone) 5px 6px, transparent 6px 9px, var(--bone) 9px 13px, transparent 13px 15px) left / 220px 100% no-repeat,
+    repeating-linear-gradient(-45deg, var(--acid) 0 10px, #000 10px 20px) right / calc(100% - 240px) 100% no-repeat;
+}
+
+/* ── gallery ─────────────────────────────── */
+.gallery { padding-top: 8px; }
+.shot-open {
+  background: var(--panel);
+  outline: 1px solid var(--line);
+  transition: outline-color .15s;
+}
+.shot-open img { transition: transform .5s cubic-bezier(.2,.7,.2,1), filter .3s; filter: saturate(.9) contrast(1.05); }
+.shot-open:hover img { transform: scale(1.03); filter: none; }
+.shot-open:hover { outline-color: var(--acid); }
+
+/* crop marks in the corners */
+.shot-open::before, .shot-open::after {
+  content: ""; position: absolute; width: 16px; height: 16px; z-index: 1; pointer-events: none;
+  border: 0 solid var(--acid); opacity: 0; transition: opacity .15s, inset .2s;
+}
+.shot-open::before { top: 10px; left: 10px; border-top-width: 2px; border-left-width: 2px; }
+.shot-open::after { bottom: 10px; right: 10px; border-bottom-width: 2px; border-right-width: 2px; }
+.shot-open:hover::before, .shot-open:hover::after { opacity: 1; }
+
+.shot figcaption { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; }
+.idx { font-family: var(--code); background: var(--bone); color: #000; font-weight: 700; padding: 1px 6px; }
+.shot .cap { color: var(--dim); }
+.shot:hover .idx { background: var(--acid); }
+.shot-links .chip { padding: 5px 10px; font-size: 10px; }
+
+.ph {
+  color: var(--dim); font-size: 10px; letter-spacing: .2em; text-transform: uppercase;
+  background: repeating-linear-gradient(-45deg, #161917 0 8px, var(--panel) 8px 16px);
+}
+.ph span { border: 1px solid var(--line); background: var(--bg); padding: 6px 10px; }
+.ph span::before { content: "▲ "; color: var(--hot); }
+
+/* ── footer ──────────────────────────────── */
+.foot { border-top: 1px solid var(--line); color: var(--dim); text-transform: uppercase; letter-spacing: .14em; font-size: 10px; }
+.foot a:hover { color: var(--acid); }
+
+/* ── lightbox ────────────────────────────── */
+.lightbox { background: rgba(5,6,5,.96); color: var(--bone); }
+.lightbox::backdrop { background: transparent; }
+.lightbox img { outline: 1px solid var(--line); }
+.lightbox figcaption { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--dim); }
+.lb-close, .lb-nav { color: var(--dim); }
+.lb-close:hover, .lb-nav:hover { color: var(--acid); }
+
+@media (max-width: 600px) {
+  .specs { display: grid; grid-template-columns: 1fr 1fr; }
+  .specs > div:nth-child(odd) { border-left: 0; padding-left: 0; }
+  .specs > div:nth-child(n+3) { border-top: 1px solid var(--line); }
+  .hero-bar { background-size: 120px 100%, calc(100% - 136px) 100%; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+/* status + planned panel */
+.hero-tag .status { color: #000; background: var(--hot); padding: 2px 6px; }
+.hero-tag .status::before { content: none; }
+.empty { border: 1px dashed var(--line); background: repeating-linear-gradient(-45deg, #121413 0 10px, #0e100f 10px 20px); }
+.empty-code { font: 900 clamp(48px, 10vw, 120px)/1 var(--cond); font-variation-settings: "wdth" 62; color: var(--line); -webkit-text-stroke: 1px var(--dim); }
+.empty p { text-transform: uppercase; letter-spacing: .14em; font-size: 12px; }
+.empty-sub { color: var(--dim); }
