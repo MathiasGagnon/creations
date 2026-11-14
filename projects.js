@@ -24,22 +24,22 @@ window.PROJECTS = [
     specs: [
       ["Printer", "Bambu A1 mini"],
       ["Material", "PETG"],
-      ["Parts", "10"],
-      ["Length", "239 mm"],
+      ["Parts", "19"],
+      ["Length", "477 mm"],
     ],
     links: [
       { label: "STL files", url: "#", kind: "model" },
       { label: "Build video", url: "#", kind: "video" },
     ],
     gallery: [
-      // Test set: Fusion 360 local renders of design v2 (not photos yet)
-      { src: "assets/datawall/cover.jpg", caption: "Render · gate end" },
-      { src: "assets/datawall/01.jpg", caption: "Render · open end, roof slid in" },
-      { src: "assets/datawall/02.jpg", caption: "Pill wall, strap + buckle" },
-      { src: "assets/datawall/03.jpg", caption: "Top view, roof deck: pipes + 2-tier block" },
+      // Fusion 360 local renders of design v4, the 9-pill curved wall (not photos yet)
+      { src: "assets/datawall/cover.jpg", caption: "Render · curved 9-pill wall, gate end" },
+      { src: "assets/datawall/01.jpg", caption: "Render · far gate, door at both ends" },
+      { src: "assets/datawall/02.jpg", caption: "Top view · curved roof deck, pipes + clamps" },
+      { src: "assets/datawall/03.jpg", caption: "Side elevation · nine pills, \"03\" recess" },
       { src: "assets/datawall/04.jpg", caption: "Gate + lime door trim", links: [{ label: "Gate STL", url: "#", kind: "model" }] },
-      { src: "assets/datawall/05.jpg", caption: "Side elevation" },
-      { src: "assets/datawall/06.jpg", caption: "Low angle, gate corner", links: [{ label: "Watch", url: "#", kind: "video" }] },
+      { src: "assets/datawall/05.jpg", caption: "Close-up · recessed \"03\" numerals + hazard stripes" },
+      { src: "assets/datawall/06.jpg", caption: "Roof deck detail · pipes, clamps, panel seams", links: [{ label: "Watch", url: "#", kind: "video" }] },
     ],
   },
 
